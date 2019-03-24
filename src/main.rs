@@ -1,36 +1,25 @@
 extern crate gotham;
-extern crate hyper;
-extern crate mime;
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_json;
-
-use hyper::{ Body, Response, StatusCode };
 
 use gotham::router::Router;
 use gotham::router::builder::*;
 use gotham::state::State;
-use gotham::handler::IntoResponse;
-use gotham::helpers::http::response::create_response;
 
-#[derive(Serialize)]
-pub struct User {
-    username: String
-}
-
-impl IntoResponse for User {
-    fn into_response(self, state: &State) -> Response<Body> {
-        create_response(
-            state,
-            StatusCode::OK,
-            mime::APPLICATION_JSON,
-            serde_json::to_string(&self).expect("serialized user")
-        )
-    }
-}
+mod entities;
+use entities::user::User;
 
 pub fn index(state: State) -> (State, User) {
-    (state, User { username: "blinfoldking".to_string() })
+    (
+        state,
+        User {
+            username: "blinfoldking".to_string(),
+            email: "blinf@oldking".to_string(),
+            fullname: "blinf oldking".to_string(),
+            id: "123".to_string(),
+            password: "wkwkwkwk".to_string()
+        }
+    )
 }
 
 fn router() -> Router {
