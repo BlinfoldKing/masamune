@@ -20,3 +20,29 @@ impl IntoResponse for User {
     }
 }
 
+#[derive(Serialize, Clone)]
+pub struct UserList {
+    pub data: Vec<User>,
+    pub length: usize
+}
+
+impl UserList {
+    pub fn new(user_list: Vec<User>) -> UserList {
+        UserList {
+            data: user_list.clone(),
+            length: user_list.len()
+        }
+    }
+}
+
+impl IntoResponse for UserList {
+    fn into_response(self, state: &State) -> Response<Body> {
+        create_response(
+            state,
+            StatusCode::OK,
+            mime::APPLICATION_JSON,
+            serde_json::to_string(&self).expect("serialized user list")
+        )
+    }
+}
+

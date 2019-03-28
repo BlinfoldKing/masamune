@@ -1,8 +1,10 @@
 extern crate serde_derive;
 
 use super::State;
-use super::User;
 use super::FromState;
+
+use super::User;
+use super::UserList;
 
 pub struct UserHandler;
 
@@ -22,7 +24,12 @@ impl UserHandler {
             }
         }
 
-        (state, Err("Hello World".to_string()))
+        (state, Err("User Not Found".to_string()))
+    }
+
+    pub fn get_all(state: State) -> (State, Result<UserList, String>) {
+        let users = generate_mock_user(10);
+        (state, Ok(UserList::new(users)))
     }
 }
 
