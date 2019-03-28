@@ -1,12 +1,12 @@
 use super::entity_header::*;
 
-#[derive(Serialize)]
+#[derive(Serialize, Copy, Clone)]
 pub struct User {
-    pub id: String,
-    pub username: String,
-    pub email: String,
-    pub fullname: String,
-    pub password: String
+    pub id: &'static str,
+    pub username: &'static str,
+    pub email: &'static str,
+    pub fullname: &'static str,
+    pub password: &'static str
 }
 
 impl IntoResponse for User {
